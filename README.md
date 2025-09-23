@@ -1,54 +1,29 @@
-# React + TypeScript + Vite
+# CSS Modules Demo - Regular CSS Version
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This demo shows CSS conflicts in a React application using regular CSS.
 
-Currently, two official plugins are available:
+## The Problem
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **ProductCard** uses global CSS with gray theme
+- **UserCard** uses its own CSS file with blue theme
+- Both components use the same class names (`.card`, `.card-title`, `.card-content`)
+- When UserCard CSS loads, it affects ALL `.card` elements on the page
+- Navigating between routes causes CSS conflicts
 
-## Expanding the ESLint configuration
+## How to Test
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Start on Products page (gray theme)
+2. Navigate to Users page (blue theme loads)
+3. Navigate back to Products page (now blue theme due to conflict!)
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Files
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- `src/components/ProductCard.tsx` - Product card component
+- `src/components/UserCard.tsx` - User card component
+- `src/components/UserCard.css` - User card styles (causes conflicts)
+- `src/styles/global.css` - Global styles
+- `src/App.tsx` - Main app with routing
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## The Issue
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+This demonstrates why CSS Modules are needed - global class names cause conflicts across components and routes.
