@@ -7,10 +7,12 @@ import {
   useLocation,
 } from "react-router-dom";
 import ProductCard from "./components/ProductCard";
+import ProductCardModule from "./components/ProductCardModule";
 import "./styles/global.css";
 
 // Lazy load UserCard so its CSS only loads when needed
 const UserCard = lazy(() => import("./components/UserCard"));
+const UserCardModule = lazy(() => import("./components/UserCardModule"));
 
 const Navigation = () => {
   const location = useLocation();
@@ -37,11 +39,12 @@ const Navigation = () => {
           border: "1px solid #007bff",
         }}
       >
-        Products
+        Products (Regular CSS)
       </Link>
       <Link
         to="/users"
         style={{
+          marginRight: "1rem",
           padding: "0.5rem 1rem",
           background:
             location.pathname === "/users" ? "#007bff" : "transparent",
@@ -51,7 +54,39 @@ const Navigation = () => {
           border: "1px solid #007bff",
         }}
       >
-        Users
+        Users (Regular CSS)
+      </Link>
+      <Link
+        to="/products-modules"
+        style={{
+          marginRight: "1rem",
+          padding: "0.5rem 1rem",
+          background:
+            location.pathname === "/products-modules"
+              ? "#28a745"
+              : "transparent",
+          color:
+            location.pathname === "/products-modules" ? "white" : "#28a745",
+          textDecoration: "none",
+          borderRadius: "4px",
+          border: "1px solid #28a745",
+        }}
+      >
+        Products (CSS Modules)
+      </Link>
+      <Link
+        to="/users-modules"
+        style={{
+          padding: "0.5rem 1rem",
+          background:
+            location.pathname === "/users-modules" ? "#28a745" : "transparent",
+          color: location.pathname === "/users-modules" ? "white" : "#28a745",
+          textDecoration: "none",
+          borderRadius: "4px",
+          border: "1px solid #28a745",
+        }}
+      >
+        Users (CSS Modules)
       </Link>
     </nav>
   );
@@ -60,8 +95,11 @@ const Navigation = () => {
 const ProductsPage = () => {
   return (
     <div style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
-      <h1>Products</h1>
-      
+      <h1>Products - Regular CSS</h1>
+      <p style={{ color: "#666", marginBottom: "2rem" }}>
+        These cards use regular CSS and will be affected by CSS conflicts.
+      </p>
+
       <div
         style={{
           display: "grid",
@@ -83,8 +121,11 @@ const ProductsPage = () => {
 const UsersPage = () => {
   return (
     <div style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
-      <h1>Users</h1>
-      
+      <h1>Users - Regular CSS</h1>
+      <p style={{ color: "#666", marginBottom: "2rem" }}>
+        These cards use regular CSS and will cause conflicts with other pages.
+      </p>
+
       <div
         style={{
           display: "grid",
@@ -105,6 +146,61 @@ const UsersPage = () => {
   );
 };
 
+const ProductsModulePage = () => {
+  return (
+    <div style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
+      <h1>Products - CSS Modules</h1>
+      <p style={{ color: "#666", marginBottom: "2rem" }}>
+        These cards use CSS Modules and will NOT be affected by CSS conflicts.
+      </p>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "1rem",
+        }}
+      >
+        <ProductCardModule />
+        <ProductCardModule />
+        <ProductCardModule />
+        <ProductCardModule />
+        <ProductCardModule />
+        <ProductCardModule />
+      </div>
+    </div>
+  );
+};
+
+const UsersModulePage = () => {
+  return (
+    <div style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
+      <h1>Users - CSS Modules</h1>
+      <p style={{ color: "#666", marginBottom: "2rem" }}>
+        These cards use CSS Modules and will NOT cause conflicts with other
+        pages.
+      </p>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "1rem",
+        }}
+      >
+        <Suspense fallback={<div>Loading...</div>}>
+          <UserCardModule />
+          <UserCardModule />
+          <UserCardModule />
+          <UserCardModule />
+          <UserCardModule />
+          <UserCardModule />
+        </Suspense>
+      </div>
+    </div>
+  );
+};
+
 function App() {
   return (
     <Router>
@@ -114,6 +210,8 @@ function App() {
           <Route path="/" element={<ProductsPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/users" element={<UsersPage />} />
+          <Route path="/products-modules" element={<ProductsModulePage />} />
+          <Route path="/users-modules" element={<UsersModulePage />} />
         </Routes>
       </div>
     </Router>
