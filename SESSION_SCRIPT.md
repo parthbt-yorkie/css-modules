@@ -78,14 +78,17 @@ npm run dev
 
 #### Option 1: BEM Methodology
 
-**Pros:**
+**What it is:**
+- Manual naming convention using `.block__element--modifier` pattern
+- No build tools required - just disciplined naming
+- Good for small teams but hard to enforce at scale
 
+**Pros:**
 - No build tools required
 - Clear naming convention
 - Good for small teams
 
 **Cons:**
-
 - Manual naming discipline required
 - Still possible to have conflicts
 - Verbose class names
@@ -93,23 +96,30 @@ npm run dev
 
 #### Option 2: CSS-in-JS
 
-**Pros:**
+**What it is:**
+- Runtime scoping - styles generated when components render
+- Dynamic styling with JavaScript variables and functions
+- Higher bundle size and performance cost due to runtime processing
 
+**Pros:**
 - Scoped styles
 - Dynamic styling
 - Type safety with TypeScript
 
 **Cons:**
-
 - Runtime overhead
 - Bundle size increase
 - Learning curve
 - Not suitable for all use cases
 
-#### Option 3: CSS Modules
+#### Option 3: CSS Modules ⭐
+
+**What it is:**
+- Build-time scoping - styles processed during build
+- Familiar CSS syntax with automatic class name generation
+- Zero runtime cost - styles are pre-processed and static
 
 **Pros:**
-
 - Build-time scoping
 - No runtime overhead
 - Familiar CSS syntax
@@ -117,25 +127,49 @@ npm run dev
 - Great tooling support
 
 **Cons:**
-
 - Build tool dependency
 - Learning curve for team
 - Migration effort for existing code
 
 #### Option 4: Styled Components
 
-**Pros:**
+**What it is:**
+- Runtime scoping with template literals and component generation
+- Great developer experience with dynamic styling
+- Runtime overhead - styles calculated and injected at render time
 
+**Pros:**
 - Component-scoped styles
 - Dynamic styling
 - Great developer experience
 
 **Cons:**
-
 - Runtime overhead
 - Bundle size increase
 - Vendor lock-in
 - Learning curve
+
+#### Performance Terms Explained
+
+**"Zero Runtime":**
+- No performance impact when the app runs
+- Styles are pre-processed during build time
+- Static CSS loaded once, no calculations needed
+
+**"Runtime Overhead":**
+- Performance cost every time components render
+- Styles calculated and injected dynamically
+- JavaScript execution required for styling
+
+**"Low Learning Curve":**
+- Easy to learn - familiar concepts
+- Minimal new syntax to remember
+- Quick adoption by existing team members
+
+**"High Learning Curve":**
+- Complex concepts to understand
+- New syntax patterns to learn
+- Significant training time required
 
 ---
 
