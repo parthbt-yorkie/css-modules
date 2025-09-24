@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Modules Presentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+
+        .presentation {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            min-height: 500px;
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .slide h2 {
+            color: #34495e;
+            font-size: 2em;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .slide h3 {
+            color: #2c3e50;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .slide p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .slide ul {
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .slide li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .highlight {
+            background: #f39c12;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .pros {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .cons {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .navigation {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .nav-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 0 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #2980b9;
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: #34495e;
+            color: white;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .demo-section {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .key-phrase {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            font-style: italic;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="presentation">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">18</span>
+        </div>
+
+        <div class="slide active">
+            <h1>CSS Modules</h1>
+            <h2>Solving CSS Conflicts in React</h2>
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-size: 1.5em; color: #7f8c8d;">Presenter: [Your Name]</p>
+                <p style="font-size: 1.2em; color: #7f8c8d;">Date: [Today's Date]</p>
+                <p style="font-size: 1.2em; color: #7f8c8d;">Team: [Your Team]</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>What We'll Cover</h2>
+            <ul>
+                <li><strong>The Problem</strong> - CSS Conflicts in React</li>
+                <li><strong>Available Solutions</strong> - Options & Trade-offs</li>
+                <li><strong>CSS Modules Deep Dive</strong> - How They Work</li>
+                <li><strong>Live Demo</strong> - Before & After</li>
+                <li><strong>Q&A</strong> - Your Questions</li>
+            </ul>
+        </div>
+
+        <div class="slide">
+            <h2>CSS Conflicts Are Real</h2>
+            <div class="code-block">
+                /* global.css */
+                .card { background: white; }
+
+                /* userCard.css */
+                .card { background: blue; } /* Conflicts! */
+            </div>
+            <h3>What happens:</h3>
+            <ul>
+                <li>Class name collisions across components</li>
+                <li>Unpredictable styling based on load order</li>
+                <li>Hard to debug - styles change unexpectedly</li>
+                <li>Team collaboration issues</li>
+                <li>Production problems with caching</li>
+            </ul>
+        </div>
+
+        <div class="slide">
+            <h2>The Demo Problem</h2>
+            <div class="demo-section">
+                <h3>Navigation Flow:</h3>
+                <ol>
+                    <li><strong>Products Page</strong> → Gray theme (global CSS)</li>
+                    <li><strong>Users Page</strong> → Blue theme (component CSS loads)</li>
+                    <li><strong>Back to Products</strong> → Blue theme! (conflict!)</li>
+                </ol>
+            </div>
+            <div class="key-phrase">
+                <strong>Result:</strong> Users see different styles depending on navigation path!
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Our Options</h2>
+            <table class="comparison-table">
+                <tr>
+                    <th>Solution</th>
+                    <th>Scoping</th>
+                    <th>Performance</th>
+                    <th>Learning Curve</th>
+                </tr>
+                <tr>
+                    <td><strong>BEM</strong></td>
+                    <td>Manual</td>
+                    <td class="pros">✅ Zero</td>
+                    <td class="pros">✅ Low</td>
+                </tr>
+                <tr>
+                    <td><strong>CSS-in-JS</strong></td>
+                    <td>Runtime</td>
+                    <td class="cons">❌ Overhead</td>
+                    <td class="cons">❌ High</td>
+                </tr>
+                <tr>
+                    <td><strong>CSS Modules</strong></td>
+                    <td>Build-time</td>
+                    <td class="pros">✅ Zero</td>
+                    <td class="pros">✅ Low</td>
+                </tr>
+                <tr>
+                    <td><strong>Styled Components</strong></td>
+                    <td>Runtime</td>
+                    <td class="cons">❌ Overhead</td>
+                    <td>⚠️ Medium</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="slide">
+            <h2>Why CSS Modules?</h2>
+            <h3>The Perfect Balance</h3>
+            <p><strong>Used by:</strong></p>
+            <ul>
+                <li>Facebook (React team)</li>
+                <li>Airbnb</li>
+                <li>GitHub</li>
+                <li>Microsoft</li>
+                <li>Spotify</li>
+            </ul>
+            <h3>Key Benefits:</h3>
+            <ul>
+                <li class="pros">✅ Build-time scoping</li>
+                <li class="pros">✅ Zero runtime overhead</li>
+                <li class="pros">✅ Familiar CSS syntax</li>
+                <li class="pros">✅ Automatic class name generation</li>
+            </ul>
+        </div>
+
+        <div class="slide">
+            <h2>How CSS Modules Work</h2>
+            <h3>Automatic Scoping</h3>
+            <div class="code-block">
+                <strong>Input:</strong>
+                .button { background: blue; }
+
+                <strong>Output:</strong>
+                .Button_button_abc123 { background: blue; }
+            </div>
+            <div class="code-block">
+                <strong>Component:</strong>
+                &lt;button className={styles.button}&gt;Click me&lt;/button&gt;
+
+                <strong>HTML:</strong>
+                &lt;button class="Button_button_abc123"&gt;Click me&lt;/button&gt;
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Before vs After</h2>
+            <h3>Code Comparison</h3>
+            <div class="code-block">
+                <strong>Before (Regular CSS):</strong>
+                &lt;div className="card"&gt;
+                &lt;h3 className="card-title"&gt;Title&lt;/h3&gt;
+                &lt;/div&gt;
+            </div>
+            <div class="code-block">
+                <strong>After (CSS Modules):</strong>
+                import styles from './Card.module.css';
+
+                &lt;div className={styles.card}&gt;
+                &lt;h3 className={styles.title}&gt;Title&lt;/h3&gt;
+                &lt;/div&gt;
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Live Demo</h2>
+            <h3>Let's See It In Action</h3>
+            <div class="demo-section">
+                <h4>Demo 1: The Problem</h4>
+                <ul>
+                    <li>Products Page → Gray theme</li>
+                    <li>Users Page → Blue theme loads</li>
+                    <li>Back to Products → Blue theme! (conflict)</li>
+                </ul>
+            </div>
+            <div class="demo-section">
+                <h4>Demo 2: The Solution</h4>
+                <ul>
+                    <li>Products (CSS Modules) → Gray theme</li>
+                    <li>Users (CSS Modules) → Blue theme</li>
+                    <li>Back to Products → Still gray! (no conflict)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Getting Started</h2>
+            <h3>1. File Naming:</h3>
+            <div class="code-block">
+                ComponentName.module.css
+            </div>
+            <h3>2. Import and Use:</h3>
+            <div class="code-block">
+                import styles from './Button.module.css';
+                &lt;button className={styles.primary}&gt;Click me&lt;/button&gt;
+            </div>
+            <h3>3. TypeScript Support:</h3>
+            <div class="code-block">
+                declare module "*.module.css" {
+                const classes: { [key: string]: string };
+                export default classes;
+                }
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Best Practices</h2>
+            <h3>File Organization:</h3>
+            <div class="code-block">
+                src/
+                components/
+                Button/
+                Button.tsx
+                Button.module.css
+                Button.test.tsx
+            </div>
+            <h3>CSS Structure:</h3>
+            <div class="code-block">
+                /* 1. Layout */
+                .container { }
+
+                /* 2. Typography */
+                .title { }
+
+                /* 3. Interactive elements */
+                .button { }
+                .button:hover { }
+
+                /* 4. States */
+                .loading { }
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Performance</h2>
+            <h3>Zero Runtime Cost</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h4>Bundle Size:</h4>
+                    <ul>
+                        <li>Minimal overhead</li>
+                        <li>Dead code elimination works</li>
+                        <li>Only used styles included</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Runtime:</h4>
+                    <ul>
+                        <li>Zero runtime overhead</li>
+                        <li>No style recalculation</li>
+                        <li>Perfect for SSR</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Migration Strategy</h2>
+            <h3>Gradual Adoption</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h4>Phase 1: New Components</h4>
+                    <ul>
+                        <li>Use CSS Modules for all new components</li>
+                        <li>Keep existing components as-is</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Phase 2: High-Impact Components</h4>
+                    <ul>
+                        <li>Migrate components with most conflicts</li>
+                        <li>Start with shared/common components</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Common Questions</h2>
+            <h3>Q&A</h3>
+            <div class="demo-section">
+                <h4>"Why not just use unique class names?"</h4>
+                <ul>
+                    <li>Manual naming is error-prone</li>
+                    <li>Hard to enforce across teams</li>
+                    <li>CSS Modules automate this</li>
+                </ul>
+            </div>
+            <div class="demo-section">
+                <h4>"What about CSS-in-JS?"</h4>
+                <ul>
+                    <li>CSS-in-JS has runtime overhead</li>
+                    <li>CSS Modules have zero runtime cost</li>
+                    <li>Better for SSR</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Key Takeaways</h2>
+            <h3>What We Learned</h3>
+            <ol>
+                <li><strong>CSS conflicts are a real problem</strong> in large React applications</li>
+                <li><strong>Multiple solutions exist</strong> with different trade-offs</li>
+                <li><strong>CSS Modules provide the best balance</strong> of features and simplicity</li>
+                <li><strong>Easy to adopt</strong> - familiar CSS syntax with automatic scoping</li>
+                <li><strong>Production ready</strong> - used by major companies</li>
+            </ol>
+        </div>
+
+        <div class="slide">
+            <h2>Next Steps</h2>
+            <h3>Getting Started</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h4>Immediate Actions:</h4>
+                    <ol>
+                        <li><strong>Try it:</strong> Start with one new component</li>
+                        <li><strong>Measure:</strong> Compare before/after bundle size</li>
+                        <li><strong>Share:</strong> Show the team the benefits</li>
+                        <li><strong>Plan:</strong> Create migration strategy</li>
+                    </ol>
+                </div>
+                <div>
+                    <h4>Long-term Benefits:</h4>
+                    <ul>
+                        <li>Better maintainability</li>
+                        <li>Improved collaboration</li>
+                        <li>Better performance</li>
+                        <li>Enhanced developer experience</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Resources</h2>
+            <h3>Learn More</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h4>Documentation:</h4>
+                    <ul>
+                        <li><a href="https://github.com/css-modules/css-modules">CSS Modules Official Guide</a></li>
+                        <li><a href="https://vitejs.dev/guide/features.html#css-modules">Vite CSS Modules</a></li>
+                        <li><a href="https://webpack.js.org/loaders/css-loader/#modules">Webpack CSS Modules</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>This Demo:</h4>
+                    <ul>
+                        <li>Repository: [Your GitHub Repo]</li>
+                        <li>Branches: <code>regular-css-conflicts</code> & <code>css-modules-solution</code></li>
+                        <li>Live Demo: Available for testing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>Questions?</h2>
+            <h3>Let's Discuss</h3>
+            <div style="text-align: center; margin-top: 50px;">
+                <h4>Topics:</h4>
+                <ul style="text-align: left; display: inline-block;">
+                    <li>Your current CSS challenges</li>
+                    <li>Migration strategies for your team</li>
+                    <li>Implementation questions</li>
+                    <li>Any other concerns</li>
+                </ul>
+                <div style="margin-top: 40px;">
+                    <p><strong>Contact:</strong></p>
+                    <p>Email: [Your Email]</p>
+                    <p>GitHub: [Your GitHub]</p>
+                    <p>Demo Repository: [Repository URL]</p>
+                </div>
+                <h2 style="color: #27ae60; margin-top: 40px;">Thank you!</h2>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">Previous</button>
+            <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+
+</html>
