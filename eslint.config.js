@@ -3,6 +3,7 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
+import cssModules from 'eslint-plugin-css-modules'
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -16,6 +17,7 @@ export default tseslint.config(
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      'css-modules': cssModules,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -23,6 +25,9 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      // CSS Modules rules
+      'css-modules/no-unused-class': 'error',
+      'css-modules/no-undef-class': 'error',
     },
   },
 )
